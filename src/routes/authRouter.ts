@@ -1,13 +1,19 @@
 import { Router } from "express"
-import app from "../app"
+
+import { signin, signup } from "../controllers/userControllers"
 import { validateSchema } from "../middlewares/validateSchema"
-import { userSchema } from "../schemas/userSchemas"
+import { loginSchema, userSchema } from "../schemas/userSchemas"
 
 const authRoute = Router()
 
-app.post("/signup",
+authRoute.post("/signup",
     validateSchema(userSchema),
-    
+    signup
+)
+
+authRoute.get("/signin",
+    validateSchema(loginSchema),
+    signin
 )
 
 
