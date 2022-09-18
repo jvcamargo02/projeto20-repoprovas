@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id       Int    @id @default(autoincrement())
+  email    String @unique @db.Text
+  password String @db.Text
+
+  @@map("users")
+}
+
+model Categories {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique @db.Text
+  Tests Tests[]
+
+  @@map("categories")
+}
+
+model Tests {
+  id                   Int                @id @default(autoincrement())
+  name                 String             @db.Text
+  pdfUrl               String             @db.Text
+  category             Categories         @relation(fields: [categoryId], references: [id])
+  teacherDisciplines   TeacherDisciplines @relation(fields: [teacherDisciplinesId], references: [id])
+  teacherDisciplinesId Int
+  categoryId           Int
+
+  @@map("tests")
+}
+
+model TeacherDisciplines {
+  id           Int         @id @default(autoincrement())
+  teacher      Teachers    @relation(fields: [teacherId], references: [id])
+  discipline   Disciplines @relation(fields: [disciplineId], references: [id])
+  teacherId    Int
+  disciplineId Int
+  Tests        Tests[]
+
+  @@map("teacherDisciplines")
+}
+
+model Disciplines {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique @db.Text
+  term               Terms                @relation(fields: [termId], references: [id])
+  termId             Int
+  TeacherDisciplines TeacherDisciplines[]
+
+  @@map("disciplines")
+}
+
+model Terms {
+  id          Int           @id @default(autoincrement())
+  number      Int           @unique
+  Disciplines Disciplines[]
+
+  @@map("terms")
+}
+
+model Teachers {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique @db.Text
+  TeacherDisciplines TeacherDisciplines[]
+
+  @@map("teachers")
+}
