@@ -1,5 +1,6 @@
 import dotenv from "dotenv"
 import app from "./app"
+import prisma from "./config/database"
 
 dotenv.config()
 

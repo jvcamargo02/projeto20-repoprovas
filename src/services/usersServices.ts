@@ -23,6 +23,14 @@ export async function signin(loginData: UserLoginData) {
     return generateToken(user.id);
 }
 
+export async function findUserById(userId: number) {
+    const user = await userRepositories.findById(userId)
+
+    if (!user) throw { type: "not_found", message: "User not found" }
+    
+    return user
+}
+
 async function validNewUser(email: string) {
     const user = await userRepositories.findUserByEmail(email);
 

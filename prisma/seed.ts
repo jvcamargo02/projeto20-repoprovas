@@ -13,8 +13,10 @@ async function main() {
     await prisma.categories.upsert({ where: { name: "Recuperação" }, update: {}, create: { name: "Recuperação" } });
 
     await prisma.disciplines.upsert({
-        where: { name: "HTML e CSS"},
-        update: { termId: 1 },
+        where: {
+            name: "HTML e CSS"
+        },
+        update: {termId: 1},
         create: { name: "HTML e CSS", termId: 1 },
     });
     await prisma.disciplines.upsert({
