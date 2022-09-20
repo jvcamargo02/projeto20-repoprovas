@@ -1,6 +1,10 @@
 import prisma from "../src/config/database";
 
 async function main() {
+    
+    await prisma.$executeRaw`TRUNCATE TABLE "users" RESTART IDENTITY CASCADE`
+
+
     await prisma.terms.upsert({ where: { number: 1 }, update: {}, create: { number: 1 } });
     await prisma.terms.upsert({ where: { number: 2 }, update: {}, create: { number: 2 } });
     await prisma.terms.upsert({ where: { number: 3 }, update: {}, create: { number: 3 } });
@@ -14,9 +18,9 @@ async function main() {
 
     await prisma.disciplines.upsert({
         where: {
-            name: "HTML e CSS"
+            name: "HTML e CSS",
         },
-        update: {termId: 1},
+        update: { termId: 1 },
         create: { name: "HTML e CSS", termId: 1 },
     });
     await prisma.disciplines.upsert({
@@ -47,6 +51,33 @@ async function main() {
 
     await prisma.teachers.upsert({ where: { name: "Diego Pinho" }, update: {}, create: { name: "Diego Pinho" } });
     await prisma.teachers.upsert({ where: { name: "Bruna Hamori" }, update: {}, create: { name: "Bruna Hamori" } });
+
+    await prisma.teacherDisciplines.createMany({
+        data: [
+            {
+                teacherId: 1,
+                disciplineId: 1,
+            },
+            {
+                teacherId: 1,
+                disciplineId: 2,
+            },
+            {
+                teacherId: 1,
+                disciplineId: 3,
+            },
+            {
+                teacherId: 2,
+                disciplineId: 4,
+            },{
+                teacherId: 2,
+                disciplineId: 5,
+            },{
+                teacherId: 2,
+                disciplineId: 6,
+            },
+        ],
+    });
 }
 
 main()

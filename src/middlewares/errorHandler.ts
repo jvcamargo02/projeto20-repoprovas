@@ -6,6 +6,7 @@ export function errorHandler(
     res: Response,
     next: NextFunction
 ) {
+    console.log(req.body, req.headers.authorization,err)
     if (err?.type) {
         return res.status(errorTypeToStatusCode(err.type)).send(err.message);
     }

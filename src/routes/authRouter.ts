@@ -11,7 +11,7 @@ authRoute.post("/signup",
     signup
 )
 
-authRoute.get("/signin",
+authRoute.post("/signin",
     validateSchema(loginSchema),
     signin
 )
