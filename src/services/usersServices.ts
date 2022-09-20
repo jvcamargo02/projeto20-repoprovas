@@ -24,11 +24,10 @@ export async function signin(loginData: UserLoginData) {
 }
 
 export async function findUserById(userId: number) {
+    const user = await userRepositories.findById(userId);
+    if (!user) throw { type: "not_found", message: "User not found" };
 
-    const user = await userRepositories.findById(userId)
-    if (!user) throw { type: "not_found", message: "User not found" }
-    
-    return user
+    return user;
 }
 
 async function validNewUser(email: string) {
@@ -47,7 +46,7 @@ export async function hashPassword(password: string): Promise<string> {
 
 async function isValidEmail(email: string): Promise<User> {
     const user = await userRepositories.findUserByEmail(email);
-    console.log(user, "email")
+
     if (!user) throw { type: "not_found", message: "Incorrect email or password" };
 
     return user;
@@ -61,10 +60,10 @@ function confirmPassword(password: string, passwordConfirm: string) {
 
 function isValidPassword(password: string, hashedPassword: string) {
     const verify = bcrypt.compareSync(password, hashedPassword);
-    console.log(verify, "senha")
+
     if (!verify) throw { type: "unauthorized", message: "Incorrect email or password" };
 }
 
 function generateToken(userId: number) {
-    return jwt.sign({ userId }, process.env.JWT_SECRET as Secret);
+    return jwt.sign({ userId }, process.env.JWT_SECRET);
 }
