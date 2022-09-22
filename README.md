@@ -1,7 +1,7 @@
 # <p align = "center"> Projeto RepoProvas API</p>
 
 <p align="center">
-   <img src="../src/assets/logo.png"/>
+   <img src="https://freeimage.host/i/s2pCFt"/>
 </p>
 
 <p align = "center">
